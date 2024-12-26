@@ -1,13 +1,92 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy New Year!</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f2f2f2;
+      padding: 20px;
+    }
+    .container {
+      max-width: 400px;
+      margin: auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Happy New Year 2024!</h1>
+    <p>Enter your name and upload a profile picture to get a personalized greeting.</p>
+    <img id="profilePreview" class="profile-pic" src="https://via.placeholder.com/100" alt="Profile Picture">
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <input type="file" id="uploadInput" accept="image/*">
+    <button onclick="generateGreeting()">Generate Greeting</button>
+    <p id="greeting" style="display: none;"></p>
+    <a id="whatsappLink" style="display: none;" target="_blank">Share on WhatsApp</a>
+  </div>
+
+  <script>
+    const uploadInput = document.getElementById('uploadInput');
+    const profilePreview = document.getElementById('profilePreview');
+    const nameInput = document.getElementById('nameInput');
+    const greeting = document.getElementById('greeting');
+    const whatsappLink = document.getElementById('whatsappLink');
+
+    uploadInput.addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          profilePreview.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function generateGreeting() {
+      const name = nameInput.value.trim();
+      if (!name) {
+        alert('Please enter your name.');
+        return;
+      }
+
+      greeting.textContent = `Happy New Year, ${name}! 🎉`;
+      greeting.style.display = 'block';
+
+      const message = `Happy New Year 2024! 🎉 From ${name}`;
+      whatsappLink.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(message)}`;
+      whatsappLink.textContent = 'Share on WhatsApp';
+      whatsappLink.style.display = 'block';
+    }
+  </script>
+</body>
 </html>
